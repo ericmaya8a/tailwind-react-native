@@ -1,23 +1,33 @@
-import { Switch, View } from "react-native";
+import { ColorValue, Switch, View } from "react-native";
 import Icon from "react-native-remix-icon";
 import colors from "tailwindcss/colors";
 import { useDarkMode } from "../hooks";
 
-export function ModeSwitch() {
+type ModeSwitchProps = {
+  iconSize?: string | number;
+  switchColor?: ColorValue | null;
+};
+
+export function ModeSwitch({
+  iconSize = 200,
+  switchColor = colors.blue[500],
+}: ModeSwitchProps) {
   const { isDarkMode, toggleColorScheme } = useDarkMode();
 
   return (
-    <View className="flex-row items-center space-x-2">
+    <View className="justify-center space-y-4">
       <Icon
         name={`${isDarkMode ? "moon" : "sun"}-fill`}
         color={isDarkMode ? "white" : "black"}
-        size={36}
+        size={iconSize}
       />
-      <Switch
-        value={isDarkMode}
-        onChange={toggleColorScheme}
-        trackColor={{ true: colors.blue[500] }}
-      />
+      <View className="items-center">
+        <Switch
+          value={isDarkMode}
+          onChange={toggleColorScheme}
+          trackColor={{ true: switchColor }}
+        />
+      </View>
     </View>
   );
 }
